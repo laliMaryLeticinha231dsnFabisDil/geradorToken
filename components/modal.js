@@ -1,32 +1,40 @@
 import { View, StyleSheet, Pressable, Text, TouchableOpacity } from "react-native";
+import * as Clipboard from 'expo-clipboard';
 
-export function ModalTokens({handleClose}) {
+export function ModalTokens({ token, fechar }) {
+
+    async function copiarToken() {
+        await Clipboard.setStringAsync(token)
+        alert("Token copiado para área de transferência.")
+        fechar();
+    }
+
     return (
         <View style={ESTILO.container}>
-        <View style={ESTILO.content}>
-            <Text style={ESTILO.title}>
-                Senha Gerada
-            </Text>
-            <Pressable style={ESTILO.innerToken} >
-                <Text style={ESTILO.text}>
-                    senha
+            <View style={ESTILO.content}>
+                <Text style={ESTILO.title}>
+                    Senha Gerada
                 </Text>
-            </Pressable>
-            <View style={ESTILO.buttonArea}>
-                <TouchableOpacity style={ESTILO.button} onPress={handleClose} >
-                    <Text style={ESTILO.buttonText} >
-                        Voltar
+                <Pressable style={ESTILO.innerToken} >
+                    <Text style={ESTILO.text} selectable={false}onLongPress={copiarToken}>
+                        {token}
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[ESTILO.button, ESTILO.buttonSave]} >
-                    <Text style={ESTILO.buttonSaveText}>
-                        Salvar Senha
-                    </Text>
-                </TouchableOpacity>
+                </Pressable>
+                <View style={ESTILO.buttonArea}>
+                    <TouchableOpacity style={ESTILO.button} onPress={fechar} >
+                        <Text style={ESTILO.buttonText} >
+                            Voltar
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[ESTILO.button, ESTILO.buttonSave]} >
+                        <Text style={ESTILO.buttonSaveText}>
+                            Salvar Senha
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
 
-    </View>
+        </View>
     )
 }
 
@@ -74,13 +82,13 @@ const ESTILO = StyleSheet.create({
         alignItems: "center",
         marginBottom: 14,
         marginTop: 14,
-        margin:9,
+        margin: 9,
         padding: 8,
         backgroundColor: "#EEEEEE",
         borderRadius: 8,
     },
     buttonSave: {
-    
+
         backgroundColor: "#392DE9"
     },
     buttonSaveText: {
